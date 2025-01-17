@@ -1,12 +1,25 @@
 import React from "react";
 
-function About() {
+function About({ bio, links }) {
   return (
     <div id="about">
       <h2>About Me</h2>
-      <p>Put the bio in here</p>
-      <img src="https://i.imgur.com/mV8PQxj.gif" alt="I made this" />
-      {/* add your <Links /> component here */}
+      {bio && bio !== "" ? <p>{bio}</p> : null}
+      <img src={links?.image} alt="I made this" />
+      {/* Render links */}
+      <div>
+        {links?.github && (
+          <a href={links.github} target="_blank" rel="noopener noreferrer">
+            {links.github}
+          </a>
+        )}
+        <br />
+        {links?.linkedin && (
+          <a href={links.linkedin} target="_blank" rel="noopener noreferrer">
+            {links.linkedin}
+          </a>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,5 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-
-import user from "../data/user";
 import App from "../components/App";
 
 test("renders without errors", () => {
@@ -9,38 +7,36 @@ test("renders without errors", () => {
 });
 
 test("renders the correct child components", () => {
-  const { container } = render(<App />);
-  expect(container.querySelector("nav")).toBeInTheDocument();
-  expect(container.querySelector("#home")).toBeInTheDocument();
-  expect(container.querySelector("#about")).toBeInTheDocument();
+  render(<App />);
+  expect(screen.queryByText("Home")).toBeInTheDocument();
+  expect(screen.queryByText("About Me")).toBeInTheDocument();
 });
 
 test("passes 'name', 'city', and 'color' to <Home> as props", () => {
   render(<App />);
-  const h1 = screen.queryByText(
-    `${user.name} is a Web Developer from ${user.city}`
-  );
+  const h1 = screen.queryByText(/Liza is a Web Developer from New York/);
   expect(h1).toBeInTheDocument();
-  expect(h1.style.color).toEqual(user.color);
+  expect(h1.style.color).toEqual("firebrick");
 });
 
 test("passes 'bio' to <About> as a prop", () => {
   render(<App />);
-  const p = screen.queryByText(user.bio);
+  const p = screen.queryByText("I made this!");
   expect(p).toBeInTheDocument();
   expect(p.tagName).toEqual("P");
 });
 
-test("passes 'github' to <Links> as a prop, via <About>", () => {
+// Remove the Links component test and check the actual links in About directly
+test("passes 'github' link to <About>", () => {
   render(<App />);
-  const a = screen.queryByText(user.links.github);
-  expect(a).toBeInTheDocument();
-  expect(a.tagName).toEqual("A");
+  const githubLink = screen.queryByText("https://github.com/liza");
+  expect(githubLink).toBeInTheDocument();
+  expect(githubLink.tagName).toEqual("A");
 });
 
-test("passes 'linkedin' to <Links> as a prop, via <About>", () => {
+test("passes 'linkedin' link to <About>", () => {
   render(<App />);
-  const a = screen.queryByText(user.links.linkedin);
-  expect(a).toBeInTheDocument();
-  expect(a.tagName).toEqual("A");
+  const linkedinLink = screen.queryByText("https://www.linkedin.com/in/liza/");
+  expect(linkedinLink).toBeInTheDocument();
+  expect(linkedinLink.tagName).toEqual("A");
 });

@@ -1,3 +1,4 @@
+// NavBar.js (Component)
 import React from "react";
 
 function NavBar() {
